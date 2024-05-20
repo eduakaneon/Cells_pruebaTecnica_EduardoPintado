@@ -19,15 +19,15 @@ Este proyecto está compuesto por dos páginas principales: `CreateProductPage` 
 Para instalar las dependencias del proyecto, asegúrate de tener `npm` instalado y ejecuta:
 
 ```bash
-npm install
+npm i
 ```
 
 ## Uso
 
-Para ejecutar el proyecto en un entorno de desarrollo, puedes utilizar un servidor local como `web-dev-server` o `polymer-cli`.
+Para ejecutar el proyecto en un entorno de desarrollo, puedes utilizar Docker para configurar el entorno Cells.
 
 ```bash
-npm start
+npm run start
 ```
 
 ## Componentes
@@ -238,4 +238,4 @@ const DEFAULT_I18N_KEYS = {
 
 ## Conclusión
 
-Este proyecto proporciona una implementación básica para crear y listar productos utilizando componentes web personalizados. Para ampliar la funcionalidad, puedes agregar más validaciones al formulario, mejorar la gestión del estado, y añadir más características a los componentes de la interfaz de usuario.
+Este proyecto proporciona una implementación básica para crear y listar productos utilizando componentes web personalizados. 
