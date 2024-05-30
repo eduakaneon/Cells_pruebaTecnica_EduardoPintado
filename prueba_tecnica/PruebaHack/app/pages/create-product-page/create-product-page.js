@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-expressions */
 import { html } from 'lit-element';
 import { CellsPage } from '@cells/cells-page';
-import { randomID } from '@bbva-web-components/bbva-core-lit-helpers/utils/randomId.js';
 import { BbvaCoreIntlMixin } from '@bbva-web-components/bbva-core-intl-mixin';
 import {
   bbvaCarbonfootprint,
@@ -15,10 +14,6 @@ import {
   bbvaPinterest,
   bbvaYoutube
 } from '@bbva-web-components/bbva-foundations-icons';
-import {
-  expenses,
-  moneygraphic
-} from '@bbva-web-components/bbva-foundations-microillustrations';
 import '@bbva-web-components/bbva-core-collapse/bbva-core-collapse.js';
 import '@bbva-web-components/bbva-foundations-grid-tools-layout/bbva-foundations-grid-tools-layout.js';
 import '@bbva-web-components/bbva-web-form-checkbox/bbva-web-form-checkbox.js';
@@ -96,6 +91,7 @@ class CreateProductPage extends BbvaCoreIntlMixin(CellsPage) {
     super.update && super.update(props);
   }
 
+  // 💪 muy bien, limpiamos los valores
   _clearForm() {
     this.shadowRoot.querySelector('#name').value = '';
     this.shadowRoot.querySelector('#amount').value = '';
@@ -111,12 +107,14 @@ class CreateProductPage extends BbvaCoreIntlMixin(CellsPage) {
     `;
   }
 
+
+  // Recuerda siempre añadir attribito name en los inputs
   get _formProductTpl() {
     return html`
       <form enctype="multipart/form-data">
         <h2>${this.t(this.i18nKeys.formHeading)}</h2>
-        <bbva-web-form-text id="name" label="${this.t(this.i18nKeys.labelInput1)}"></bbva-web-form-text>
-        <bbva-web-form-amount id="amount" label="${this.t(this.i18nKeys.labelInput2)}"></bbva-web-form-amount>
+        <bbva-web-form-text name="name" id="name" label="${this.t(this.i18nKeys.labelInput1)}"></bbva-web-form-text>
+        <bbva-web-form-amount name="amount" id="amount" label="${this.t(this.i18nKeys.labelInput2)}"></bbva-web-form-amount>
         <bbva-web-button-default id="send" type="button" @click="${this._addProduct}">
           ${this.t(this.i18nKeys.labelButton)}
         </bbva-web-button-default>
@@ -124,16 +122,21 @@ class CreateProductPage extends BbvaCoreIntlMixin(CellsPage) {
     `;
   }
 
+  // Podemos apoyanos en la API nativa de JS para rescatar los valores dentro de un formaluario, para esto necesitamos los attributos name
+  // https://developer.mozilla.org/en-US/docs/Web/API/FormData/FormData
   _addProduct(ev) {
     ev.preventDefault();
     ev.stopPropagation();
 
-    const productName = this.shadowRoot.querySelector('#name').value;
-    const productAmount = this.shadowRoot.querySelector('#amount').value;
+    const form = ev.target.closest('form');
+    const formData = new FormData(form);
+
+    //const productName = this.shadowRoot.querySelector('#name').value;
+    //const productAmount = this.shadowRoot.querySelector('#amount').value;
 
     const details = {
-      nameP: productName,
-      priceP: productAmount
+      nameP: formData.get('name'),
+      priceP: formData.get('amount'),
     };
 
     this.publish('añadir_producto', details);

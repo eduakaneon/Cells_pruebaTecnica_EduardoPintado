@@ -2,7 +2,6 @@
 import { html } from 'lit-element';
 import { CellsPage } from '@cells/cells-page';
 import { BbvaCoreIntlMixin } from '@bbva-web-components/bbva-core-intl-mixin';
-import { bbvaWebCardProduct } from '@bbva-web-components/bbva-web-card-product';
 import '@bbva-web-components/bbva-core-collapse/bbva-core-collapse.js';
 import '@bbva-web-components/bbva-foundations-grid-tools-layout/bbva-foundations-grid-tools-layout.js';
 import '@bbva-web-components/bbva-web-module-footer/bbva-web-module-footer-language-list-item.js';
@@ -42,19 +41,28 @@ class ListProductPage extends BbvaCoreIntlMixin(CellsPage) {
   }
 
 
+  // Cuando trabajamos con arrays al ser un dato complejo no deberíamos utilizar push, tenemos que generar un array nuevo para esto nos ayudaremos con el operador spread
   _handlePublish() {
     const { nameP, priceP } = this._product;
 
     if (this._product) {
       const existingProducts = JSON.parse(localStorage.getItem('productos')) || [];
       const newProduct = { nameP, priceP};
-      existingProducts.push(newProduct);
+      existingProducts = [
+        ...existingProducts,
+        newProduct
+      ];
+
       localStorage.setItem('productos', JSON.stringify(existingProducts));
     }
   }
+
+  // 💪 Muy bien, tenemos navegación hacía atras
   _goBack() {
     this.navigate('create-product');
   }
+
+  // Hecho en falta el poder borrar el producto y el campo de imagen
   _renderCardProduct() {
     const products = JSON.parse(localStorage.getItem('productos')) || [];
     return html`
